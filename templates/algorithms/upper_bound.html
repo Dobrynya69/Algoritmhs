@@ -3,11 +3,17 @@
 {% load crispy_forms_tags %}
 
 {% block condition %}
-    Search first uppercase in your string
+    Array:
+    [
+    {% for obj in array %}
+        {{obj}},
+    {% endfor %}
+    ]
+    Search number by upper bound and return his index
 {% endblock condition %}
 
 {% block content %}
-    <form action="{% url 'search_uppercase' %}" method="post" class="ajax_form">
+    <form action="{% url 'upper_bound' %}" method="post" class="ajax_form">
         {% csrf_token %}
         {{form|crispy}}
         <input type="submit" value="Send data" class="btn btn-success button_full">

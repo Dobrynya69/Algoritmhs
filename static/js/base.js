@@ -2,7 +2,7 @@
 $(".ajax_form").submit(function(e){
     e.preventDefault();
     var action_url = $(this).attr("action")
-    formData = new FormData($(this).get(0));
+    var formData = new FormData($(this).get(0));
     $.ajax({
         type: "POST",
         url: action_url,

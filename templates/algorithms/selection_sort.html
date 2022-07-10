@@ -9,13 +9,12 @@
         {{obj}},
     {% endfor %}
     ]
-    Search any number and return True or False
+    Selsection sort
 {% endblock condition %}
 
 {% block content %}
-    <form action="{% url 'binary_search' %}" method="post" class="ajax_form">
+    <form action="{% url 'selection_sort' %}" method="post" class="ajax_form">
         {% csrf_token %}
-        {{form|crispy}}
         <input type="submit" value="Send data" class="btn btn-success button_full">
     </form>
     <div class="ajax_answer"></div>

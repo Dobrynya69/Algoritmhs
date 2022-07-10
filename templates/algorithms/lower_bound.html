@@ -9,11 +9,11 @@
         {{obj}},
     {% endfor %}
     ]
-    Search any number and return True or False
+    Search number by lower bound and return his index
 {% endblock condition %}
 
 {% block content %}
-    <form action="{% url 'binary_search' %}" method="post" class="ajax_form">
+    <form action="{% url 'lower_bound' %}" method="post" class="ajax_form">
         {% csrf_token %}
         {{form|crispy}}
         <input type="submit" value="Send data" class="btn btn-success button_full">

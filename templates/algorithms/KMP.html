@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block condition %}
+    Strings: <br/>
+    {% for obj in array %}
+        {{obj}}<br/>
+    {% endfor %}
+    <b>Try to search text</b>
+{% endblock condition %}
+
+{% block content %}
+    <form action="{% url 'KMP' %}" method="post" class="ajax_form">
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" value="Send data" class="btn btn-success button_full">
+    </form>
+    <div class="ajax_answer"></div>
+{% endblock content %}

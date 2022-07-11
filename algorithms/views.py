@@ -19,8 +19,8 @@ class BinarySearchView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = BinarySearchForm()
-        context["array"] = self.array
+        context['form'] = BinarySearchForm()
+        context['array'] = self.array
         return context
 
 
@@ -51,8 +51,8 @@ class LowerBoundView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = LowerBoundForm()
-        context["array"] = self.array
+        context['form'] = LowerBoundForm()
+        context['array'] = self.array
         return context
 
 
@@ -89,8 +89,8 @@ class UpperBoundView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = UpperBoundForm()
-        context["array"] = self.array
+        context['form'] = UpperBoundForm()
+        context['array'] = self.array
         return context
 
 
@@ -137,7 +137,7 @@ class SelectionSortView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["array"] = self.array
+        context['array'] = self.array
         return context
     
 
@@ -167,7 +167,7 @@ class BubleSortView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["array"] = self.array
+        context['array'] = self.array
         return context
     
 
@@ -193,7 +193,7 @@ class InsertionSortView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["array"] = self.array
+        context['array'] = self.array
         return context
     
 
@@ -220,7 +220,7 @@ class QuickSortView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["array"] = self.array
+        context['array'] = self.array
         return context
     
 
@@ -241,6 +241,60 @@ class QuickSortView(TemplateView):
 
         return self.quick_sort(lowers) + [pivot] + self.quick_sort(greaters)
 
+
     def post(self, request, *args, **kwargs):
         array = self.array
         return JsonResponse({'answer': {'Array': str(self.quick_sort(array))}}, status=200)
+
+
+class KMPView(TemplateView):
+    template_name = 'algorithms/KMP.html'
+    extra_context = {'title': 'KMP search'}
+    array = ['Hello world!', '**** you world!', 'I`m hate this world!', 'T_T']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['array'] = self.array
+        context['form'] = KMPForm()
+        return context
+    
+
+    def KMP(self, heystack, needle):
+        if needle == '':
+            return False
+        
+        lps = [0] * len(needle)
+        prevLps, i = 0, 1
+        while i < len(needle):
+            if needle[i] == needle[prevLps]:
+                lps[i] = prevLps + 1
+                prevLps += 1
+                i += 1
+            elif prevLps == 0:
+                lps[i] = 0
+                i += 1
+            else:
+                prevLps = lps[prevLps - 1]
+
+        i, j = 0, 0
+        while i < len(heystack):
+            if heystack[i] == needle[j]:
+                i += 1
+                j += 1
+            elif j == 0:
+                i += 1
+            else:
+                j = lps[j - 1]
+
+            if j == len(needle):
+                return True
+
+        return False
+
+
+    def post(self, request, *args, **kwargs):
+        strings = {}
+        for heystack in self.array:
+            if self.KMP(heystack, request.POST['needle']):
+                strings[str(len(strings) + 1)] = heystack
+        return JsonResponse({'answer': strings}, status=200)

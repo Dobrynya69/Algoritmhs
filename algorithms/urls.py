@@ -10,4 +10,5 @@ urlpatterns = [
     path('buble_sort/', BubleSortView.as_view(), name='buble_sort'),
     path('insertion_sort/', InsertionSortView.as_view(), name='insertion_sort'),
     path('quick_sort/', QuickSortView.as_view(), name='quick_sort'),
+    path('kmp/', KMPView.as_view(), name='KMP'),
 ]
